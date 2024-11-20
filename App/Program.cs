@@ -1,28 +1,25 @@
-using App.Components;
+using App.Endpoints;
+using App.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+builder.Services.AddHttpClient();
+
+builder.Services.AddSingleton<WarStateProvider>();
+builder.Services.AddSingleton<WarMachine>();
+builder.Services.AddHostedService(sp => sp.GetRequiredService<WarMachine>());
+
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
-
-app.UseHttpsRedirection();
-
 
 app.UseAntiforgery();
 
 app.MapStaticAssets();
-app.MapRazorComponents<App>()
+app.MapRazorComponents<App.Components.App>()
     .AddInteractiveServerRenderMode();
 
-app.Run();
+app.MapWarEndpoints();
+
+app.Run("http://*:1337");
