@@ -1,4 +1,5 @@
-﻿using App.Schema;
+﻿using App.Constants;
+using App.Schema;
 
 namespace App.Services;
 
@@ -19,7 +20,7 @@ public class WarMachine(
 
         async Task AttackTask(string target)
         {
-            var client = httpClientFactory.CreateClient();
+            var client = httpClientFactory.CreateClient(HttpClients.HackingClient);
             client.BaseAddress = new Uri(target);
             while (true)
             {
@@ -45,7 +46,7 @@ public class WarMachine(
                 }
 
 
-                if (warStateProvider.Data.State != WarState.Running)
+                if (warStateProvider.Status.State != WarState.Running)
                     continue;
             }
             // ReSharper disable once FunctionNeverReturns

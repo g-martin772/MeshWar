@@ -8,7 +8,7 @@ public class WarStateProvider
     {
         var section = configuration.GetSection("War");
 
-        Data = new StatusModel
+        Status = new StatusModel
         {
             Attack = double.Parse(section["StartingAttackValue"]!),
             Defense = double.Parse(section["StartingDefenseValue"]!),
@@ -17,5 +17,10 @@ public class WarStateProvider
         };
     }
 
-    public StatusModel Data { get; set; }
+    public StatusModel Status { get; set; }
+
+    public int DefenseCount { get; set; }
+    public int DefenseSuccessCount { get; set; }
+    public int AttackCount { get; set; }
+    public int AttackSuccessCount { get; set; }
 }

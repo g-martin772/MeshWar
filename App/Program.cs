@@ -1,4 +1,6 @@
+using App.Constants;
 using App.Endpoints;
+using App.Schema;
 using App.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,8 +8,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddHttpClient();
+builder.Services.AddHttpClient(HttpClients.HackingClient, client =>
+{
+    client.DefaultRequestHeaders.Add("Attacker", "Gabriel Martin");
+    client.Timeout = TimeSpan.FromMilliseconds(200);
+});
 
+builder.Services.Configure<WarConfig>(builder.Configuration.GetSection("War"));
 builder.Services.AddSingleton<WarStateProvider>();
 builder.Services.AddSingleton<WarMachine>();
 builder.Services.AddHostedService(sp => sp.GetRequiredService<WarMachine>());
