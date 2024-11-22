@@ -4,6 +4,10 @@ namespace App.Services;
 
 public class WarStateProvider
 {
+    public delegate void StateHasChangedEvent();
+
+    public StateHasChangedEvent StateHasChanged = delegate { };
+
     public WarStateProvider(IConfiguration configuration)
     {
         var section = configuration.GetSection("War");

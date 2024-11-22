@@ -11,9 +11,10 @@ builder.Services.AddRazorComponents()
 builder.Services.AddHttpClient(HttpClients.HackingClient, client =>
 {
     client.DefaultRequestHeaders.Add("Attacker", "Gabriel Martin");
-    client.Timeout = TimeSpan.FromMilliseconds(200);
+    client.Timeout = TimeSpan.FromMilliseconds(20000);
 });
 
+builder.Services.AddSingleton<WarConfig>();
 builder.Services.Configure<WarConfig>(builder.Configuration.GetSection("War"));
 builder.Services.AddSingleton<WarStateProvider>();
 builder.Services.AddSingleton<WarMachine>();

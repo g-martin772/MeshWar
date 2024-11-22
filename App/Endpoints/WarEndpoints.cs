@@ -17,7 +17,7 @@ public static class WarEndpoints
         app.MapPost("/hacking-attempt", (
             [FromServices] WarStateProvider warStateProvider,
             [FromBody] HackingAttemptPostModel model,
-            [FromServices] ILogger logger,
+            [FromServices] ILogger<WarMachine> logger,
             [FromHeader] string attacker,
             [FromServices] WarConfig config) =>
         {
@@ -42,6 +42,8 @@ public static class WarEndpoints
             warStateProvider.Status.State = WarState.Disabled;
             Task.Run(async () => await Task.Delay(config.DisabledStateDurationSeconds * 1000))
                 .ContinueWith(_ => warStateProvider.Status.State = WarState.Running);
+
+            warStateProvider.StateHasChanged?.Invoke();
 
             return Results.Json(HackingResultModel.Hacked);
         });

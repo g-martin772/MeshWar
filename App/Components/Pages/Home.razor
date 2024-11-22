@@ -1,7 +1,61 @@
 ﻿@page "/"
+@using global::App.Services
 
-<PageTitle>Home</PageTitle>
+@inject WarStateProvider State
 
-<h1>Hello, world!</h1>
+<PageTitle>Mesh War Game</PageTitle>
 
-Welcome to your new app.
+@if (MyState is null)
+{
+    <div>Loading...</div>
+}
+else
+{
+    <div class="container">
+        <div class="row">
+            <h1>Mesh War Game</h1>
+        </div>
+        <div class="row">
+            State: @MyState.Status.State
+        </div>
+        <div class="row">
+            Points: @MyState.Status.Points
+            Attack: @MyState.Status.Attack
+            Defense: @MyState.Status.Defense
+        </div>
+        <div class="row">
+            Total Attack: @State.AttackCount
+            Total Defense: @MyState.DefenseCount
+            Successful Attacks: @MyState.AttackSuccessCount
+            Successful Defenses: @MyState.DefenseSuccessCount
+        </div>
+    </div>
+}
+
+
+@code {
+
+    WarStateProvider? MyState;
+
+    protected override void OnInitialized()
+    {
+        MyState = State;
+        State.StateHasChanged += StateChanged;
+        Task.Run(async () =>
+        {
+            while (true)
+            {
+                await Task.Delay(100);
+                MyState = State;
+                await InvokeAsync(StateHasChanged);
+                StateHasChanged();
+            }
+        });
+    }
+
+    private void StateChanged()
+    {
+        InvokeAsync(StateHasChanged);
+    }
+
+}
