@@ -25,6 +25,7 @@ public class WarMachine(
             client.BaseAddress = new Uri(target);
             while (true)
             {
+                await Task.Delay(100, stoppingToken);
                 StatusModel status;
                 try
                 {

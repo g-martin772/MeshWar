@@ -2,18 +2,18 @@
 
 public class WarConfig
 {
-    public int StartingPoints { get; set; }
-    public int StartingAttackValue { get; set; }
-    public int StartingDefenseValue { get; set; }
-    public int PointsGainedForSuccessfulHack { get; set; }
-    public int PointsLostForUnsuccessfulHack { get; set; }
-    public int AttackValueGainedForSuccessfulHack { get; set; }
-    public int AttackValueLostForUnsuccessfulHack { get; set; }
-    public int PointsGainedForSuccessfulDefense { get; set; }
-    public int PointsLostForUnsuccessfulDefense { get; set; }
-    public int DefenseValueGainedForSuccessfulDefense { get; set; }
-    public int DefenseValueLostForUnsuccessfulDefense { get; set; }
-    public int NumberOfSuccessfulHacksForExtraDefense { get; set; }
-    public int NumberOfDefensePointsGainedForExtraDefense { get; set; }
-    public int DisabledStateDurationSeconds { get; set; }
+    public int StartingPoints { get; set; } = 20;
+    public int StartingAttackValue { get; set; } = 10;
+    public int StartingDefenseValue { get; set; } = 10;
+    public int PointsGainedForSuccessfulHack { get; set; } = 1;
+    public int PointsLostForUnsuccessfulHack { get; set; } = 1;
+    public int AttackValueGainedForSuccessfulHack { get; set; } = 1;
+    public int AttackValueLostForUnsuccessfulHack { get; set; } = 1;
+    public int PointsGainedForSuccessfulDefense { get; set; } = 1;
+    public int PointsLostForUnsuccessfulDefense { get; set; } = 1;
+    public int DefenseValueGainedForSuccessfulDefense { get; set; } = 1;
+    public int DefenseValueLostForUnsuccessfulDefense { get; set; } = 1;
+    public int NumberOfSuccessfulHacksForExtraDefense { get; set; } = 3;
+    public int NumberOfDefensePointsGainedForExtraDefense { get; set; } = 1;
+    public int DisabledStateDurationSeconds { get; set; } = 5;
 }

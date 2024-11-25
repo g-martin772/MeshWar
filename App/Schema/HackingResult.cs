@@ -2,6 +2,6 @@
 
 public static class HackingResult
 {
-    public const string Hacked = "hacked";
-    public const string Defended = "defended";
+    public const string Hacked = "Hacked";
+    public const string Defended = "Defended";
 }
