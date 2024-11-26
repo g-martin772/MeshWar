@@ -84,6 +84,11 @@ public class WarMachine(
                             case HackingResult.Defended:
                                 warStateProvider.Status.Points -= config.PointsLostForUnsuccessfulHack;
                                 warStateProvider.Status.Attack -= config.AttackValueLostForUnsuccessfulHack;
+                                if (warStateProvider.Status.Points < 0)
+                                {
+                                    warStateProvider.Status.State = WarState.Stopped;
+                                    warStateProvider.Status.Points = 0;
+                                }
                                 logger.LogInformation("Hacking attempt on {Target} was defended", target);
                                 break;
                             default:

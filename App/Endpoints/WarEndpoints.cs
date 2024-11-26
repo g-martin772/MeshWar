@@ -10,7 +10,7 @@ public static class WarEndpoints
     {
         app.MapGet("/status", async (WarStateProvider warStateProvider) =>
         {
-            await Task.Delay(2000);
+            //await Task.Delay(2000);
             return Results.Json(warStateProvider.Status);
         });
 
@@ -37,6 +37,13 @@ public static class WarEndpoints
 
             warStateProvider.Status.Points -= config.PointsLostForUnsuccessfulDefense;
             warStateProvider.Status.Defense -= config.DefenseValueLostForUnsuccessfulDefense;
+
+            if (warStateProvider.Status.Points < 0)
+            {
+                warStateProvider.Status.State = WarState.Stopped;
+                warStateProvider.Status.Points = 0;
+            }
+
             logger.LogInformation("Hacking attempt from {Attacker} was successful", attacker);
             
             warStateProvider.Status.State = WarState.Disabled;
