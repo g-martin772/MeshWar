@@ -27,4 +27,5 @@ public class WarStateProvider
     public int DefenseSuccessCount { get; set; }
     public int AttackCount { get; set; }
     public int AttackSuccessCount { get; set; }
+    public int AttackStreak { get; set; } = 0;
 }

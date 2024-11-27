@@ -43,16 +43,6 @@ else
     {
         MyState = State;
         State.StateHasChanged += StateChanged;
-        Task.Run(async () =>
-        {
-            while (true)
-            {
-                await Task.Delay(100);
-                MyState = State;
-                await InvokeAsync(StateHasChanged);
-                StateHasChanged();
-            }
-        });
     }
 
     private void StateChanged()

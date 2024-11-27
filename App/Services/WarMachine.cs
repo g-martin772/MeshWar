@@ -14,7 +14,11 @@ public class WarMachine(
     {
         var targets = configuration.GetSection("Targets").Get<string[]>()!;
 
-        var tasks = targets.Select(target => Task.Run(async () => await AttackTask(target), stoppingToken)).ToList();
+        var tasks = new List<Task>();
+
+        for (var i = 0; i < 50; i++)
+            tasks.AddRange(targets
+                .Select(target => Task.Run(async () => await AttackTask(target), stoppingToken)).ToList());
 
         await Task.WhenAll(tasks);
         return;
@@ -25,7 +29,6 @@ public class WarMachine(
             client.BaseAddress = new Uri(target);
             while (true)
             {
-                await Task.Delay(100, stoppingToken);
                 StatusModel status;
                 try
                 {
@@ -79,6 +82,14 @@ public class WarMachine(
                                 warStateProvider.Status.Points += config.PointsGainedForSuccessfulHack;
                                 warStateProvider.Status.Attack += config.AttackValueGainedForSuccessfulHack;
                                 warStateProvider.AttackSuccessCount++;
+                                warStateProvider.AttackStreak++;
+
+                                if (warStateProvider.AttackStreak > config.NumberOfSuccessfulHacksForExtraDefense)
+                                {
+                                    warStateProvider.Status.Defense += config.NumberOfDefensePointsGainedForExtraDefense;
+                                    warStateProvider.AttackStreak = 0;
+                                }
+
                                 logger.LogInformation("Hacking attempt on {Target} was successful", target);
                                 break;
                             case HackingResult.Defended:
