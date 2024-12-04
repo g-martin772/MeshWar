@@ -15,5 +15,5 @@ public class WarConfig
     public int DefenseValueLostForUnsuccessfulDefense { get; set; } = 1;
     public int NumberOfSuccessfulHacksForExtraDefense { get; set; } = 3;
     public int NumberOfDefensePointsGainedForExtraDefense { get; set; } = 1;
-    public int DisabledStateDurationSeconds { get; set; } = 5;
+    public int DisabledStateDurationSeconds { get; set; } = 2;
 }

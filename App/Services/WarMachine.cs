@@ -16,7 +16,7 @@ public class WarMachine(
 
         var tasks = new List<Task>();
 
-        for (var i = 0; i < 50; i++)
+        for (var i = 0; i < 1; i++)
             tasks.AddRange(targets
                 .Select(target => Task.Run(async () => await AttackTask(target), stoppingToken)).ToList());
 
@@ -29,7 +29,12 @@ public class WarMachine(
             client.BaseAddress = new Uri(target);
             while (true)
             {
+                await Task.Delay(1000, stoppingToken);
                 StatusModel status;
+
+                if (warStateProvider.Status.State != WarState.Running)
+                    continue;
+
                 try
                 {
                     var response = await client.GetAsync("status", stoppingToken);
@@ -51,10 +56,6 @@ public class WarMachine(
                     logger.LogWarning(e, "Failed to get status of {Target}", target);
                     continue;
                 }
-
-
-                if (warStateProvider.Status.State != WarState.Running)
-                    continue;
 
                 if (warStateProvider.Status.Attack < status.Defense)
                     continue;
