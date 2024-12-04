@@ -25,8 +25,11 @@ public static class WarEndpoints
                 return Results.StatusCode(StatusCodes.Status503ServiceUnavailable);
 
             warStateProvider.DefenseCount++;
+            
+            var defense = warStateProvider.Status.Defense;
+            defense *= 0.9 + (Random.Shared.NextDouble() * 0.2);
 
-            if (!(model.Attack > warStateProvider.Status.Defense))
+            if (!(model.Attack > defense))
             {
                 warStateProvider.DefenseSuccessCount++;
                 warStateProvider.Status.Defense += config.DefenseValueGainedForSuccessfulDefense;
